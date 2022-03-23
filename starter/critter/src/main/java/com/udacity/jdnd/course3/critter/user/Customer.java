@@ -21,7 +21,7 @@ public class Customer {
     private String phoneNumber;
     private String notes;
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany
     private List<Pet> pets;
 
     public Long getId() {
