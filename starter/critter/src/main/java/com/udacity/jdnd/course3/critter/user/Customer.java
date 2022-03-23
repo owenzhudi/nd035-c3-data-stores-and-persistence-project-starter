@@ -2,11 +2,10 @@ package com.udacity.jdnd.course3.critter.user;
 
 import com.udacity.jdnd.course3.critter.pet.Pet;
 import org.hibernate.annotations.Nationalized;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -21,7 +20,8 @@ public class Customer {
     private String phoneNumber;
     private String notes;
 
-    @OneToMany
+    @OneToMany(targetEntity = Pet.class, fetch = FetchType.LAZY)
+//    @NotFound(action = NotFoundAction.IGNORE)
     private List<Pet> pets;
 
     public Long getId() {
@@ -62,5 +62,9 @@ public class Customer {
 
     public void setPets(List<Pet> pets) {
         this.pets = pets;
+    }
+
+    public void addPet(Pet pet) {
+        pets.add(pet);
     }
 }

@@ -34,12 +34,7 @@ public class CustomerService {
                 .orElseThrow(() -> new CustomerNotFoundException("Customer id not found"));
     }
 
-    public Customer getCustomerByPetId(Long petId) {
-        Optional<Pet> optionalPet = petRepository.findById(petId);
-        if (optionalPet.isEmpty()) {
-            throw new PetNotFoundException("petId not found");
-        }
-        Pet pet = optionalPet.get();
-        return pet.getOwner();
+    public Customer getCustomerByPet(Pet pet) {
+       return customerRepository.findCustomerByPets(pet);
     }
 }

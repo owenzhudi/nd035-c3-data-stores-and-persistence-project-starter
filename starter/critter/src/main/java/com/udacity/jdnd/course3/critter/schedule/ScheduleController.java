@@ -77,31 +77,43 @@ public class ScheduleController {
     private ScheduleDTO convertScheduleToScheduleDTO(Schedule schedule) {
         ScheduleDTO scheduleDTO = new ScheduleDTO();
         BeanUtils.copyProperties(schedule, scheduleDTO);
-        List<Long> employeeIds = schedule.getEmployees()
-                .stream().map(Employee::getId)
-                .collect(Collectors.toList());
-        scheduleDTO.setEmployeeIds(employeeIds);
-        List<Long> petIds = schedule.getPets()
-                .stream()
-                .map(Pet::getId)
-                .collect(Collectors.toList());
-        scheduleDTO.setPetIds(petIds);
+        List<Employee> employees = schedule.getEmployees();
+        if (employees != null) {
+            List<Long> employeeIds = employees
+                    .stream().map(Employee::getId)
+                    .collect(Collectors.toList());
+            scheduleDTO.setEmployeeIds(employeeIds);
+        }
+
+        List<Pet> pets = schedule.getPets();
+        if (pets != null) {
+            List<Long> petIds = pets.stream()
+                    .map(Pet::getId)
+                    .collect(Collectors.toList());
+            scheduleDTO.setPetIds(petIds);
+        }
+
         return scheduleDTO;
     }
 
     private Schedule convertScheduleDTOToSchedule(ScheduleDTO scheduleDTO) {
         Schedule schedule = new Schedule();
         BeanUtils.copyProperties(scheduleDTO, schedule);
-        List<Employee> employees = scheduleDTO.getEmployeeIds()
-                .stream()
-                .map((employeeId) -> employeeService.findById(employeeId))
-                .collect(Collectors.toList());
-        schedule.setEmployees(employees);
-        List<Pet> pets = scheduleDTO.getPetIds()
-                .stream()
-                .map((petId) -> petService.findById(petId))
-                .collect(Collectors.toList());
-        schedule.setPets(pets);
+        List<Long> employeeIds = scheduleDTO.getEmployeeIds();
+        if (employeeIds != null) {
+            List<Employee> employees = employeeIds.stream()
+                    .map((employeeId) -> employeeService.findById(employeeId))
+                    .collect(Collectors.toList());
+            schedule.setEmployees(employees);
+        }
+
+        List<Long> petIds = scheduleDTO.getPetIds();
+        if (petIds != null) {
+            List<Pet> pets = petIds.stream()
+                    .map((petId) -> petService.findById(petId))
+                    .collect(Collectors.toList());
+            schedule.setPets(pets);
+        }
 
         return schedule;
     }

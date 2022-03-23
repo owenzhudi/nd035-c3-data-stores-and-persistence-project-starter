@@ -26,14 +26,14 @@ public class ScheduleService {
     }
 
     public List<Schedule> findSchedulesByPet(Pet pet) {
-        return scheduleRepository.findByPet(pet);
+        return scheduleRepository.findByPets(pet);
     }
 
     public List<Schedule> findSchedulesByEmployee(Employee employee) {
-        return scheduleRepository.findByEmployee(employee);
+        return scheduleRepository.findByEmployees(employee);
     }
 
     public List<Schedule> findSchedulesByCustomer(Customer customer) {
-        return scheduleRepository.findByCustomer(customer);
+        return scheduleRepository.findByCustomers(customer);
     }
 }
