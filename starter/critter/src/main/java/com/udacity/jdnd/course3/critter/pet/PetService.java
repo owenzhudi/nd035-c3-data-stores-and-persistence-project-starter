@@ -26,8 +26,11 @@ public class PetService {
         if (pets == null) {
             owner.setPets(new ArrayList<>());
         }
-        owner.addPet(pet);
-        customerRepository.save(owner);
+        if (owner != null) {
+            owner.addPet(pet);
+            customerRepository.save(owner);
+        }
+
         return savedPet;
     }
 
